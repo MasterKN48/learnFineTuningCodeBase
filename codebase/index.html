@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fine-Tune | Modern LLM Guide</title>
+    <meta
+      name="description"
+      content="A technical deep-dive into fine-tuning Large Language Models, covering Gemma 3, Unsloth, QLoRA, and more."
+    />
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#6366f1",
+              secondary: "#a855f7",
+              background: "#0f17 slate-900",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <div class="container nav-content">
+        <a href="#" class="logo"
+          >FINE<span class="text-primary">TUNE</span>.AI</a
+        >
+        <div class="nav-links">
+          <a href="#blogs">Blogs</a>
+          <a href="#about">About</a>
+          <a href="https://github.com" target="_blank">Github</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+          <div class="hero-content">
+            <h1 class="animate-float">
+              The Art of <br /><span class="gradient-text"
+                >Fine-Tuning LLMs</span
+              >
+            </h1>
+            <p>
+              Unlock the full potential of open-weights models. A technical
+              exploration of Gemma 3, Unsloth optimizations, and the future of
+              on-device AI.
+            </p>
+            <div class="flex gap-4">
+              <a href="#blogs" class="btn btn-primary">Start Learning</a>
+              <a
+                href="https://unsloth.ai/"
+                target="_blank"
+                class="border border-white/20 px-8 py-3 rounded-lg hover:bg-white/5 transition-colors"
+                >Documentation</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="blogs" class="blog-section">
+        <div class="container">
+          <h2 class="section-title">Latest Technical Insights</h2>
+          <div class="grid">
+            <!-- Card 1 -->
+            <article class="blog-card glass">
+              <div class="card-img">
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20"
+                ></div>
+                <div class="absolute bottom-4 left-6 flex items-center gap-2">
+                  <span
+                    class="bg-primary/20 text-primary text-[10px] px-2 py-1 rounded border border-primary/30 font-bold uppercase"
+                    >Beginner Friendly</span
+                  >
+                </div>
+              </div>
+              <div class="card-content">
+                <span class="card-tag">Gemma 3 • Optimization</span>
+                <h3 class="card-title">Supercharge Training with Unsloth</h3>
+                <p class="card-excerpt">
+                  Learn how to fine-tune the latest Gemma 3 models 2-5x faster
+                  with 80% less memory usage. Breaking down the Triton kernel
+                  optimizations.
+                </p>
+                <a href="blog/gemma-3-fine-tuning.html" class="read-more"
+                  >Learn More <span>→</span></a
+                >
+              </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="blog-card glass">
+              <div class="card-img">
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20"
+                ></div>
+                <div class="absolute bottom-4 left-6 flex items-center gap-2">
+                  <span
+                    class="bg-accent/20 text-accent text-[10px] px-2 py-1 rounded border border-accent/30 font-bold uppercase"
+                    >Architecture</span
+                  >
+                </div>
+              </div>
+              <div class="card-content">
+                <span class="card-tag">PEFT • QLoRA</span>
+                <h3 class="card-title">Demystifying QLoRA & Quantization</h3>
+                <p class="card-excerpt">
+                  A deep dive into 4-bit NormalFloat quantization and Low-Rank
+                  Adaptation. How to run high-performance training on a single
+                  T4 GPU.
+                </p>
+                <a href="blog/qlora-explained.html" class="read-more"
+                  >Learn More <span>→</span></a
+                >
+              </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="blog-card glass">
+              <div class="card-img">
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/20"
+                ></div>
+                <div class="absolute bottom-4 left-6 flex items-center gap-2">
+                  <span
+                    class="bg-emerald-500/20 text-emerald-400 text-[10px] px-2 py-1 rounded border border-emerald-500/30 font-bold uppercase"
+                    >Data Engineering</span
+                  >
+                </div>
+              </div>
+              <div class="card-content">
+                <span class="card-tag">Dataset • Firecrawl</span>
+                <h3 class="card-title">Curating High-Quality Instructions</h3>
+                <p class="card-excerpt">
+                  Garbage in, garbage out. Learn how to use Firecrawl to scrape
+                  web sources and convert them into LLM-ready instruction
+                  datasets.
+                </p>
+                <a href="blog/dataset-preparation.html" class="read-more"
+                  >Learn More <span>→</span></a
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="py-12 border-t border-white/5 mt-20">
+      <div class="container text-center text-text-muted">
+        <p>© 2026 FineTune.ai • Built for the Open Source Community</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

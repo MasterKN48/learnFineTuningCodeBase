@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curating Instruction Datasets | FineTune.ai</title>
+    <link rel="stylesheet" href="../index.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#0f172a]">
+    <nav class="scrolled">
+      <div class="container nav-content">
+        <a href="../index.html" class="logo"
+          >FINE<span class="text-primary">TUNE</span>.AI</a
+        >
+        <div class="nav-links">
+          <a href="../index.html#blogs">Back to Hub</a>
+        </div>
+      </div>
+    </nav>
+
+    <article class="pt-32 pb-20">
+      <div class="container max-w-4xl">
+        <header class="mb-12">
+          <span
+            class="text-emerald-400 font-bold uppercase tracking-wider text-sm"
+            >Dataset • Firecrawl</span
+          >
+          <h1 class="text-5xl font-extrabold mt-4 mb-6 leading-tight">
+            Curating High-Quality <br /><span class="gradient-text"
+              >Instruction Datasets</span
+            >
+          </h1>
+        </header>
+
+        <div class="blog-content">
+          <p>
+            In the world of fine-tuning, the data quality is more important than
+            the model size. "Garbage in, garbage out" is the golden rule. But
+            how do you create thousands of high-quality instruction-response
+            pairs for a new framework or library?
+          </p>
+
+          <h2>Scraping with Firecrawl</h2>
+          <p>
+            Tools like <strong>Firecrawl</strong> have revolutionized this
+            process. Instead of simple HTML scraping, Firecrawl converts complex
+            web pages into LLM-ready Markdown. This clean format is essential
+            for the next step: <strong>Synthetic Data Generation</strong>.
+          </p>
+
+          <p>The workflow usually follows:</p>
+          <ol class="list-decimal pl-6 mb-8 text-text-muted space-y-4">
+            <li>
+              <strong>Ingestion:</strong> Use Firecrawl to crawl documentation
+              or GitHub repos.
+            </li>
+            <li>
+              <strong>Cleaning:</strong> Remove boilerplate, nav-bars, and
+              irrelevant scripts.
+            </li>
+            <li>
+              <strong>Pairing:</strong> Use a larger model (like Claude 3.5 or
+              GPT-4o) to generate questions based on the documentation snippets.
+            </li>
+            <li>
+              <strong>Formatting:</strong> Convert the pairs into a JSONL format
+              compatible with Hugging Face <code>Datasets</code>.
+            </li>
+          </ol>
+
+          <div class="info-card" style="border-left-color: #10b981">
+            <p class="font-bold text-emerald-400">Pro Tip:</p>
+            <p>
+              Always include a "negative constraint" in your synthetic data.
+              Teach the model to say "I don't know" when the information isn't
+              in the provided context, reducing hallucinations.
+            </p>
+          </div>
+
+          <h2>Conclusion</h2>
+          <p>
+            Building a custom instruction dataset is the secret sauce for
+            creating AI that actually knows your business logic, your codebase,
+            or your niche industry. By combining automated crawling with
+            LLM-assisted surfacing, you can build a gold-standard dataset in
+            hours, not weeks.
+          </p>
+        </div>
+      </div>
+    </article>
+  </body>
+</html>

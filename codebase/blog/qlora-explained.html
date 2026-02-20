@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demystifying QLoRA | FineTune.ai</title>
+    <link rel="stylesheet" href="../index.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .blog-content h2 {
+        font-size: 2rem;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        color: var(--text);
+      }
+      .blog-content p {
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        color: var(--text-muted);
+      }
+      .math-block {
+        background: rgba(34, 211, 238, 0.05);
+        border: 1px dashed var(--accent);
+        padding: 2rem;
+        border-radius: 1rem;
+        text-align: center;
+        font-family: "Courier New", Courier, monospace;
+        margin: 2rem 0;
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body class="bg-[#0f172a]">
+    <nav class="scrolled">
+      <div class="container nav-content">
+        <a href="../index.html" class="logo"
+          >FINE<span class="text-primary">TUNE</span>.AI</a
+        >
+        <div class="nav-links">
+          <a href="../index.html#blogs">Back to Hub</a>
+        </div>
+      </div>
+    </nav>
+
+    <article class="pt-32 pb-20">
+      <div class="container max-w-4xl">
+        <header class="mb-12">
+          <span class="text-accent font-bold uppercase tracking-wider text-sm"
+            >PEFT • QLoRA</span
+          >
+          <h1 class="text-5xl font-extrabold mt-4 mb-6 leading-tight">
+            Demystifying <br /><span class="gradient-text"
+              >QLoRA & 4-Bit Training</span
+            >
+          </h1>
+        </header>
+
+        <div class="blog-content">
+          <p>
+            Quantized Low-Rank Adaptation (QLoRA) is arguably the most important
+            breakthrough in accessible LLM fine-tuning. It allows us to take a
+            massive model like Llama 3 70B and train it on a single consumer GPU
+            by combining two powerful concepts:
+            <strong>4-bit Quantization</strong> and
+            <strong>Low-Rank Adapters</strong>.
+          </p>
+
+          <h2>The 4-Bit NormalFloat (NF4)</h2>
+          <p>
+            Standard quantization often leads to accuracy loss because it forces
+            weights into a uniform grid. QLoRA introduces <strong>NF4</strong>,
+            which is information-theoretically optimal for normally distributed
+            weights (which most LLM weights are).
+          </p>
+
+          <div class="math-block">W = D + L_1 L_2</div>
+
+          <p>
+            In this equation, $W$ represents the final weights, $D$ is the
+            frozen 4-bit quantized base model, and $L_1, L_2$ are the low-rank
+            learnable matrices. Only the tiny $L$ matrices are updated during
+            training, saving massive amounts of VRAM.
+          </p>
+
+          <h2>Double Quantization</h2>
+          <p>
+            To squeeze even more memory, QLoRA uses "Double Quantization." It
+            quantizes the quantization constants themselves. While it sounds
+            like inception, it saves an average of 0.37 bits per parameter,
+            which adds up to gigabytes across billions of parameters.
+          </p>
+
+          <h2>Why it Matters</h2>
+          <p>
+            Before QLoRA, fine-tuning a 7B model required ~28GB of VRAM. With
+            QLoRA, this drops to under 10GB. This democratization means that any
+            developer with a mid-range laptop or a free cloud notebook can now
+            "own their AI."
+          </p>
+        </div>
+      </div>
+    </article>
+  </body>
+</html>

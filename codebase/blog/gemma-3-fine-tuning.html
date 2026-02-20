@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fine-Tune Gemma 3 with Unsloth | FineTune.ai</title>
+    <link rel="stylesheet" href="../index.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .blog-content h2 {
+        font-size: 2rem;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        color: var(--text);
+      }
+      .blog-content p {
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        color: var(--text-muted);
+      }
+      .blog-content code {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        color: var(--accent);
+      }
+      .code-block {
+        background: #011627;
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 1px solid var(--border);
+        margin: 2rem 0;
+        overflow-x: auto;
+        position: relative;
+      }
+      .code-copy {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--primary);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 0.5rem;
+        font-size: 0.8rem;
+        cursor: pointer;
+        border: none;
+      }
+      .info-card {
+        border-left: 4px solid var(--primary);
+        background: rgba(99, 102, 241, 0.05);
+        padding: 1.5rem;
+        border-radius: 0 1rem 1rem 0;
+        margin: 2rem 0;
+      }
+    </style>
+  </head>
+  <body class="bg-[#0f172a]">
+    <nav id="navbar" class="scrolled">
+      <div class="container nav-content">
+        <a href="../index.html" class="logo"
+          >FINE<span class="text-primary">TUNE</span>.AI</a
+        >
+        <div class="nav-links">
+          <a href="../index.html#blogs">Back to Hub</a>
+        </div>
+      </div>
+    </nav>
+
+    <article class="pt-32 pb-20">
+      <div class="container max-w-4xl">
+        <header class="mb-12">
+          <span class="text-primary font-bold uppercase tracking-wider text-sm"
+            >Gemma 3 • Optimization</span
+          >
+          <h1 class="text-5xl font-extrabold mt-4 mb-6 leading-tight">
+            Supercharge Training <br /><span class="gradient-text"
+              >with Unsloth</span
+            >
+          </h1>
+          <div class="flex items-center gap-4 text-text-muted">
+            <div
+              class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"
+            ></div>
+            <div>
+              <p class="font-bold text-text">Antigravity AI</p>
+              <p class="text-sm">Feb 20, 2026 • 8 min read</p>
+            </div>
+          </div>
+        </header>
+
+        <div class="blog-content">
+          <p>
+            Google's Gemma 3 release has set a new benchmark for open-weights
+            models, especially in the multimodal and edge-compute space. But how
+            do you take these models and adapt them for your specific use-case
+            without breaking the bank or waiting days for training? Enter
+            <strong>Unsloth</strong>.
+          </p>
+
+          <div class="info-card">
+            <p class="font-bold italic text-primary">
+              "Unsloth makes LLM fine-tuning 2-5x faster with 80% less memory
+              usage compared to standard implementations."
+            </p>
+          </div>
+
+          <h2>Why Unsloth?</h2>
+          <p>
+            Traditional fine-tuning libraries often rely on standard PyTorch
+            implementations that, while flexible, are not optimized for the
+            specific hardware kernels required for Large Language Models.
+            Unsloth bypasses these bottlenecks by using custom
+            <strong>Triton GPU kernels</strong>.
+          </p>
+
+          <p>Key optimizations include:</p>
+          <ul class="list-disc pl-6 mb-8 text-text-muted space-y-2">
+            <li>
+              <strong>Dynamic 4-bit Quantization:</strong> Smarter weight
+              precision without the accuracy drop of standard 4-bit.
+            </li>
+            <li>
+              <strong>KV Cache Reductions:</strong> Gemma 3 adds more sliding
+              windows to reduce KV cache load, and Unsloth leverages this at the
+              kernel level.
+            </li>
+            <li>
+              <strong>No Approximation:</strong> Unlike some speed-up
+              techniques, Unsloth maintains 100% accuracy.
+            </li>
+          </ul>
+
+          <h2>Getting Started</h2>
+          <p>
+            Fine-tuning Gemma 3 4B or 12B can now be done on a single T4 GPU
+            (free tier Colab) thanks to these optimizations. Here is the core
+            setup logic:
+          </p>
+
+          <div class="code-block">
+            <button class="code-copy">Copy</button>
+            <pre><code class="language-python">from unsloth import FastLanguageModel
+import torch
+
+model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name = "unsloth/gemma-3-4b-bnb-4bit",
+    max_seq_length = 2048,
+    load_in_4bit = True,
+)
+
+# Add LoRA weights
+model = FastLanguageModel.get_peft_model(
+    model,
+    r = 16, # Rank
+    target_modules = ["q_proj", "k_proj", "v_proj", "o_proj"],
+    lora_alpha = 16,
+    lora_dropout = 0,
+)</code></pre>
+          </div>
+
+          <h2>The Gemma 3 Architecture</h2>
+          <p>
+            Gemma 3 introduces several architectural improvements over version
+            2. Notably, it uses a <strong>262K vocab size</strong> and a
+            SentencePiece tokenizer. For vision models, it uses a fixed
+            resolution of 896x896 with a "Pan & Scan" algorithm for the vision
+            encoder.
+          </p>
+
+          <p>
+            When training, remember that Gemma 3 now forces a
+            <code>BOS</code> token and utilizes a specific chat template:
+          </p>
+
+          <div class="code-block">
+            <pre><code>&lt;start_of_turn&gt;user
+How do I fine-tune this?&lt;end_of_turn&gt;
+&lt;start_of_turn&gt;model
+Use Unsloth!&lt;end_of_turn&gt;</code></pre>
+          </div>
+
+          <h2>Conclusion</h2>
+          <p>
+            By leveraging Unsloth and Gemma 3, developers can now build highly
+            specialized, high-performance AI agents that run on-device with
+            minimal latency. The barrier to entry for custom LLMs has never been
+            lower.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <footer class="py-12 border-t border-white/5">
+      <div class="container text-center text-text-muted">
+        <p>© 2026 FineTune.ai • Technical Engineering Series</p>
+      </div>
+    </footer>
+
+    <script>
+      document.querySelectorAll(".code-copy").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const code = btn.nextElementSibling.innerText;
+          navigator.clipboard.writeText(code);
+          btn.innerText = "Copied!";
+          setTimeout(() => (btn.innerText = "Copy"), 2000);
+        });
+      });
+    </script>
+  </body>
+</html>

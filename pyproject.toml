@@ -1,0 +1,12 @@
+[project]
+name = "learnfinetuning"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "fastapi>=0.129.0",
+    "lock>=2018.3.25.2110",
+    "uvicorn>=0.41.0",
+]
