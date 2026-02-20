@@ -5,7 +5,7 @@ This project is set up for local fine-tuning of the **Gemma-3 270m** model on Ap
 ## Prerequisites
 
 - **Apple Silicon Mac**: M1, M2, M3, M4, or M5.
-- **Unified RAM**: 16GB minimum (32GB+ recommended for larger models).
+- **Unified RAM**: 16GB minimum (Note: 16GB can be tight and may cause crashes; 32GB+ highly recommended).
 - **UV**: Fast Python package manager.
 
 ## Setup
@@ -97,4 +97,17 @@ After training, you can verify the results in **Step 5** of the notebook.
 
 ## Note on Gemma-3 270m
 
-Gemma-3 270m is a highly efficient small language model, making it ideal for local fine-tuning on Mac devices without requiring high-performance cloud GPUs.
+Gemma-3 270m is a highly efficient small language model, making it ideal for local fine-tuning on Mac devices _if_ sufficient RAM is available.
+
+## Troubleshooting: Hardware Limitations
+
+If you are running on a **16GB Mac**, you may encounter memory crashes seperti:
+`libc++abi: terminating due to uncaught exception of type std::runtime_error: [METAL] Command buffer execution failed: Insufficient Memory`
+
+Even for small models like Gemma-3 270m, local training requires significant overhead. If your Mac is struggling:
+
+1.  **Close all other applications** (Chrome, VS Code, etc.) to free up Unified Memory.
+2.  **Use Google Colab**: This is the most reliable alternative.
+    - **Library**: Use the original [Unsloth](https://github.com/unslothai/unsloth) (non-MLX version) which is optimized for CUDA.
+    - **Model**: Use the [Hugging Face version](https://huggingface.co/unsloth/gemma-3-270m-bnb-4bit) of Gemma-3.
+    - **GPU**: A free T4 instance in Colab will handle this training much more reliably than a 16GB Mac.
