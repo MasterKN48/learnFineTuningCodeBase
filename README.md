@@ -16,7 +16,7 @@ This project is set up for local fine-tuning of the **Gemma-3 270m** model on Ap
    uv sync
    ```
 
-   (This installs `mlx`, `unsloth-mlx`, `datasets`, and `jupyter`).
+   (This installs `mlx`, `unsloth-mlx`, `datasets`, `jupyter`, `tensorboard`, and `trl`).
 
 2. **Model Placement**:
    Place your Gemma-3 270m model files in a directory named `gemma3` at the root of the project. This directory is ignored by git.
@@ -71,7 +71,15 @@ The notebook is pre-configured to:
 
 - Resolve paths from your `.env` file.
 - Load the model using **QLoRA** (4-bit quantization).
+- Configure training via **`SFTConfig`** for organized management of hyperparameters.
 - Run the actual training loop via `trainer.train()`.
+
+## Monitoring Progress
+
+Visualizing your training progress is crucial for understanding how well the model is learning.
+
+- **TensorBoard**: The notebook is integrated with TensorBoard. It logs training loss and other metrics to the `./lora_finetuned` directory. You can launch it directly inside the notebook to see real-time graphs.
+- **Interactive Progress Bars**: Thanks to `ipywidgets`, you'll see clean, interactive progress bars directly in the notebook cells while `trainer.train()` is running.
 
 ## Saving and Persistence
 
