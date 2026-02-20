@@ -11,9 +11,11 @@ This project is set up for local fine-tuning of the **Gemma-3 270m** model on Ap
 ## Setup
 
 1. **Install Dependencies**:
+
    ```bash
    uv sync
    ```
+
    (This installs `mlx`, `unsloth-mlx`, `datasets`, and `jupyter`).
 
 2. **Model Placement**:
@@ -32,9 +34,11 @@ To train the model on your own code, you first need to convert your files into a
 
 1. **Generate Dataset**:
    Run the following script to crawl the `codebase/` directory and create your training file:
+
    ```bash
    python prepare_dataset.py
    ```
+
    This extracts `.html`, `.css`, and `.js` files and pairs them with instructions like "Write the code for the file index.html".
 
 2. **Output**:
@@ -43,11 +47,13 @@ To train the model on your own code, you first need to convert your files into a
 ### What is JSONL Format?
 
 **JSONL (JSON Lines)** is a text format where each line is a valid JSON object. It is the standard format for LLM training data because:
+
 - **Streaming**: Large datasets can be read line-by-line without loading the entire file into memory.
 - **Robustness**: If one line is corrupted, the rest of the file remains readable.
 - **Structure**: Each line typically represents one training example.
 
 **Example of our `dataset.jsonl`:**
+
 ```json
 {"instruction": "Write the code for index.html", "input": "", "output": "<html>...</html>"}
 {"instruction": "Explain the logic in script.js", "input": "", "output": "console.log('hello');"}
@@ -62,9 +68,25 @@ uv run jupyter notebook finetune.ipynb
 ```
 
 The notebook is pre-configured to:
+
 - Resolve paths from your `.env` file.
 - Load the model using **QLoRA** (4-bit quantization).
-- Format the JSONL data into instructions for the model.
+- Run the actual training loop via `trainer.train()`.
+
+## Saving and Persistence
+
+When training finishes, the notebook saves your **LoRA adapters** to the `lora_model/` directory.
+
+- **Non-Destructive**: This does NOT modify your original `gemma3` model files.
+- **Portability**: You only need to share the `lora_model/` folder to use your fine-tuned version on other Macs.
+
+## Testing the Model
+
+After training, you can verify the results in **Step 5** of the notebook.
+
+1. **Switch to Inference**: The notebook uses `FastLanguageModel.for_inference(model)` which optimizes the model for generation.
+2. **Generate response**: Enter a prompt like "Write the code for index.html" to see how well the model has learned your codebase.
 
 ## Note on Gemma-3 270m
+
 Gemma-3 270m is a highly efficient small language model, making it ideal for local fine-tuning on Mac devices without requiring high-performance cloud GPUs.

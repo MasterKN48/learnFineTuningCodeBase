@@ -1,4 +1,7 @@
 {
   "notebook.defaultFormatter": "ms-python.black-formatter",
-  "editor.defaultFormatter": "ms-python.black-formatter"
+  "editor.defaultFormatter": "ms-python.black-formatter",
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
